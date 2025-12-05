@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Confirm";
+}
+<div class="card p-4">
+    <h3>Confirm Order</h3>
+    <hr />
+    <p><strong>Book:</strong> @ViewBag.Book.Name</p>
+    <p><strong>Price:</strong> $@ViewBag.Book.Price</p>
+    <p><strong>Tax (13%):</strong> $@ViewBag.Tax.ToString("F2")</p>
+    <h3 class="text-danger">Total: $@ViewBag.Total.ToString("F2")</h3>
+    <p class="text-muted small">Cookie ID: @ViewBag.CookieValue</p>
+
+    <form asp-action="PlaceOrder" method="post">
+        <button type="submit" class="btn btn-primary">Confirm Purchase</button>
+        <a asp-controller="Book" asp-action="Index" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>

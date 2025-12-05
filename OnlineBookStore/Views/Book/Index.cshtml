@@ -1,0 +1,61 @@
+﻿@model IEnumerable<OnlineBookStore.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="text-primary">Available Books</h2>
+        <a asp-action="Create" class="btn btn-primary">+ Add New Book</a>
+    </div>
+
+    <table class="table table-bordered table-hover shadow-sm">
+        <thead class="table-dark text-center">
+            <tr>
+                <th>ISBN</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Year</th>
+                <th>Author</th>
+                <th>Price</th>
+                <th style="width: 250px;">Action</th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="text-center">@item.ISBN</td>
+                    <td><strong>@item.Name</strong></td>
+                    <td class="text-center"><span class="badge bg-info text-dark">@item.Genre</span></td>
+                    <td class="text-center">@item.PublishedYear</td>
+                    <td>@item.Author</td>
+                    <td class="text-end fw-bold text-success">$@item.Price</td>
+                    <td class="text-center">
+                        <div class="btn-group" role="group">
+                            <a asp-controller="Order"
+                               asp-action="AddToCart"
+                               asp-route-id="@item.BookId"
+                               class="btn btn-success btn-sm">
+                                Order
+                            </a>
+
+                            <a asp-action="Edit"
+                               asp-route-id="@item.BookId"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@item.BookId"
+                               class="btn btn-danger btn-sm">
+                                Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,12 @@
+﻿@model OnlineBookStore.Models.Book
+<h2>Add New Book</h2>
+<form asp-action="Create" method="post">
+    <div class="mb-3"><label>ISBN</label><input asp-for="ISBN" class="form-control" /></div>
+    <div class="mb-3"><label>Name</label><input asp-for="Name" class="form-control" /></div>
+    <div class="mb-3"><label>Genre</label><input asp-for="Genre" class="form-control" /></div>
+    <div class="mb-3"><label>Year</label><input asp-for="PublishedYear" class="form-control" /></div>
+    <div class="mb-3"><label>Author</label><input asp-for="Author" class="form-control" /></div>
+    <div class="mb-3"><label>Price</label><input asp-for="Price" class="form-control" /></div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
