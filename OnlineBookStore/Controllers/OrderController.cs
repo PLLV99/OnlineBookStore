@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OnlineBookStore.Models;
@@ -9,7 +10,12 @@ namespace OnlineBookStore.Controllers
     public class OrderController : Controller
     {
         private readonly AppDbContext _context;
-        public OrderController(AppDbContext context) { _context = context; }
+        private readonly UserManager<AppUser> _userManager;
+        public OrderController(AppDbContext context, UserManager<AppUser> userManager)
+        {
+            _context = context;
+            _userManager = userManager;
+        }
 
         public IActionResult AddToCart(int id)
         {
@@ -40,15 +46,22 @@ namespace OnlineBookStore.Controllers
         }
 
         [HttpPost]
-        public IActionResult PlaceOrder()
+        public async Task<IActionResult> PlaceOrder()
         {
             try
             {
+                var user = await _userManager.GetUserAsync(User);
+                var userId = user.Id;
                 var bookJson = HttpContext.Session.GetString("SelectedBook");
                 if (string.IsNullOrEmpty(bookJson)) return RedirectToAction("Index", "Book");
 
                 var book = JsonConvert.DeserializeObject<Book>(bookJson);
-                _context.Orders.Add(new Order { BookId = book.BookId, Total = book.Price * 1.13 });
+                _context.Orders.Add(new Order
+                {
+                    BookId = book.BookId,
+                    UserId = userId,
+                    Total = book.Price * 1.13
+                });
                 _context.SaveChanges();
 
                 HttpContext.Session.Remove("SelectedBook");
@@ -59,5 +72,22 @@ namespace OnlineBookStore.Controllers
                 return Content($"Error: {ex.Message} | Inner: {ex.InnerException?.Message}");
             }
         }
+
+        [Authorize]
+        public async Task<IActionResult> History()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var orders = _context.Orders
+                                 .Where(o => o.UserId == user.Id)
+                                 .Join(_context.Books,
+                                       o => o.BookId,
+                                       b => b.BookId,
+                                       (o, b) => new { o.OrderNum, b.Name, o.Total })
+                                 .ToList();
+
+            return View(orders);
+        }
+
     }
 }

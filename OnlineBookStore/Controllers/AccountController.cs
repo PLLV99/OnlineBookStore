@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OnlineBookStore.Models;
 using OnlineBookStore.ViewModels;
@@ -45,6 +46,39 @@ namespace OnlineBookStore.Controllers
             }
             return View(model);
         }
+
+        [Authorize]
+        public async Task<IActionResult> Details()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var vm = new AccountDetailsVM
+            {
+                Email = user.Email,
+                Name = user.Name,
+                Address = user.Address
+            };
+
+            return View(vm);
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Details(AccountDetailsVM model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var user = await _userManager.GetUserAsync(User);
+
+            user.Name = model.Name;
+            user.Address = model.Address;
+
+            await _userManager.UpdateAsync(user);
+
+            ViewBag.Message = "Account updated successfully!";
+            return View(model);
+        }
+
 
         public async Task<IActionResult> Logout()
         {

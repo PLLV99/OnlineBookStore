@@ -12,7 +12,7 @@ using OnlineBookStore.Models;
 namespace OnlineBookStore.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251205003632_Initial")]
+    [Migration("20251209031609_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -166,6 +166,9 @@ namespace OnlineBookStore.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -310,7 +313,12 @@ namespace OnlineBookStore.Migrations
                     b.Property<double>("Total")
                         .HasColumnType("float");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("OrderNum");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Orders");
                 });
@@ -364,6 +372,15 @@ namespace OnlineBookStore.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("OnlineBookStore.Models.Order", b =>
+                {
+                    b.HasOne("OnlineBookStore.Models.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

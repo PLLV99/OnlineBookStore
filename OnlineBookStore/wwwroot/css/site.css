@@ -1,31 +1,152 @@
-html {
-  font-size: 14px;
-}
 
-@media (min-width: 768px) {
-  html {
+/*   GLOBAL TYPOGRAPHY & COLORS*/
+
+html {
     font-size: 16px;
-  }
-}
-
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
-}
-
-html {
-  position: relative;
-  min-height: 100%;
+    scroll-behavior: smooth;
 }
 
 body {
-  margin-bottom: 60px;
+    background: #f8f9fc;
+    font-family: "Segoe UI", system-ui, sans-serif;
+    color: #333;
+    margin-bottom: 80px;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+/* Global spacing */
+section, .page-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+/* Default card improvement */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+
+/*   NAVBAR MODERNIZATION*/
+
+.navbar {
+    background: #ffffff !important;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.navbar-brand {
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.6rem 1rem !important;
+}
+.nav-link:hover {
+    color: #0d6efd !important;
+
+}
+
+/* User greeting */
+.navbar .user-name {
+    font-weight: 600;
+    color: #0d6efd;
+}
+
+
+/*   BUTTONS*/
+
+.btn {
+    border-radius: 8px;
+    padding: 0.45rem 1rem;
+    font-weight: 500;
+}
+
+.btn-lg {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+}
+
+/* Subtle shadow on hover */
+.btn-primary:hover,
+.btn-success:hover,
+.btn-danger:hover,
+.btn-warning:hover,
+.btn-secondary:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+
+/*   FORMS*/
+
+.form-control,
+textarea.form-control,
+select.form-select {
+    border-radius: 8px;
+    border-color: #d0d7e2;
+}
+
+    .form-control:focus {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, .25);
+    }
+
+/* Labels */
+label {
+    font-weight: 600;
+}
+
+
+/*   TABLES*/
+
+.table {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+    .table thead {
+        background: #0d6efd;
+        color: #fff;
+    }
+
+    .table tbody tr:hover {
+        background: rgba(0,0,0,0.03);
+    }
+
+
+/*   HERO / HEADERS*/
+
+.page-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+    .page-header h1,
+    .page-header h2 {
+        font-weight: 700;
+        color: #1c1c1c;
+    }
+
+
+/*   DELETE ALERT*/
+
+.alert-danger {
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+}
+
+
+/*   FOOTER*/
+
+.footer {
+    background: #fafafa;
+    padding: 1rem 0;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

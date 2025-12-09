@@ -7,5 +7,7 @@ namespace OnlineBookStore.Models
         public int BookId { get; set; }
         public double Total { get; set; }
         public DateTime OrderDate { get; set; } = DateTime.Now;
+        public string? UserId { get; set; }
+        public AppUser? User { get; set; }
     }
 }

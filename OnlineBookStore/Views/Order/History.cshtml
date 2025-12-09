@@ -1,0 +1,23 @@
+﻿@model IEnumerable<dynamic>
+
+<h2>Your Order History</h2>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Book</th>
+            <th>Total Paid</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var o in Model)
+        {
+            <tr>
+                <td>@o.OrderNum</td>
+                <td>@o.Name</td>
+                <td>@o.Total</td>
+            </tr>
+        }
+    </tbody>
+</table>

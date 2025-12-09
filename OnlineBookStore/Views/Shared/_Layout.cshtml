@@ -1,81 +1,125 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using OnlineBookStore.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - OnlineBookStore</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/OnlineBookStore.styles.css" asp-append-version="true" />
 </head>
+
 <body>
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">OnlineBookStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
+            <div class="container">
+
+                <!-- Brand -->
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    OnlineBookStore
+                </a>
+
+                <!-- Mobile Toggler -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar" aria-controls="mainNavbar"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <!-- Navbar Content -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    <!-- Left Menu -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark fw-bold" asp-controller="Book" asp-action="Index"> Books</a>
+                            <a class="nav-link fw-semibold" asp-controller="Book" asp-action="Index">Books</a>
                         </li>
+
                     </ul>
 
+                    <!-- Right Menu (User) -->
                     <ul class="navbar-nav ms-auto">
-                        @using Microsoft.AspNetCore.Identity
-                        @using OnlineBookStore.Models
-                        @inject SignInManager<AppUser> SignInManager
-                        @inject UserManager<AppUser> UserManager
 
                         @if (SignInManager.IsSignedIn(User))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" href="#">Hello @UserManager.GetUserName(User)!</a>
+                            var currentUser = await UserManager.GetUserAsync(User);
+                            var userName = currentUser?.Name ?? User.Identity?.Name;
+
+                            <li class="nav-item d-flex align-items-center px-2">
+                                <span class="user-name">Hello, @userName!</span>
                             </li>
+
                             <li class="nav-item">
-                                <form asp-controller="Account" asp-action="Logout" method="post" class="form-inline">
-                                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                                <a class="nav-link" asp-controller="Account" asp-action="Details">
+                                    Account
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Order" asp-action="History">
+                                    My Orders
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link">Logout</button>
                                 </form>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-controller="Account" asp-action="Login">Login</a>
                             </li>
+
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Register</a>
+                                <a class="nav-link" asp-controller="Account" asp-action="Register">Register</a>
                             </li>
                         }
                     </ul>
                 </div>
+
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+
+    <!-- MAIN CONTENT -->
+    <div class="container py-4">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - OnlineBookStore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <!-- FOOTER -->
+    <footer class="footer border-top text-muted mt-auto">
+        <div class="container text-center">
+            &copy; 2025 — OnlineBookStore —
+            <a asp-controller="Home" asp-action="Privacy" class="text-decoration-none">Privacy</a>
         </div>
     </footer>
+
+    <!-- JS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
